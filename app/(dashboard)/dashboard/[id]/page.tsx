@@ -5,13 +5,15 @@ import { useParams } from 'next/navigation';
 import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import React from 'react';
+import { Id } from '@/convex/_generated/dataModel';
 
 const SingleNotePage = () => {
   const params = useParams();
-  const noteId = params?.id; // Get note ID from URL
+  const noteId = params?.id as string | undefined; // Get note ID from URL
 
   // Fetch the note using Convex API
-  const note = useQuery(api.documents.getDocumentById, { id: noteId });
+  const documentId = noteId as Id<"documents">;
+  const note = useQuery(api.documents.getDocumentById, { id: documentId });
 
   if (note === undefined) {
     return <div className="text-center text-gray-500 mt-10">Loading...</div>;
@@ -24,7 +26,6 @@ const SingleNotePage = () => {
   return (
     <div className="w-full">
       <Header 
-        initialTitle={note.title}
       />
       <div className="p-6">
         <h1 className="text-2xl font-bold">{note.title}</h1>
