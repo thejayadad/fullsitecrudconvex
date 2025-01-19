@@ -6,6 +6,7 @@ import EmojiPickerComponent from './icon-picker';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { FiTrash2, FiSmile } from 'react-icons/fi';
+import Header from '../header/header';
 
 interface Props {
   initialData: Doc<"documents">;
@@ -49,21 +50,26 @@ const ToolBar = ({ initialData, preview }: Props) => {
 
         {/* Add Icon Button */}
         {!icon && !preview && (
-          <button
+            <div className='flex items-center space-x-2'>
+                     <button
             onClick={() => setIsPickerVisible(!isPickerVisible)}
             className="p-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
           >
             <FiSmile className="h-6 w-6" />
           </button>
+          <button>
+            Add CoverImage
+          </button>
+            </div>
         )}
 
         {/* Delete Icon Button */}
         {icon && (
           <button
             onClick={handleDeleteIcon}
-            className="p-2 rounded bg-red-400 text-white hover:bg-red-600 transition"
+            className="p-1 rounded bg-red-400 text-white hover:bg-red-600 transition"
           >
-            <FiTrash2 className="h-6 w-6" />
+            <FiTrash2 className="h-3 w-3" />
           </button>
         )}
       </div>
