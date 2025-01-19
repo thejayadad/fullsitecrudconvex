@@ -133,7 +133,7 @@ const ToolBar = ({ initialData, preview }: Props) => {
 
       {/* Emoji Picker */}
       {isPickerVisible && (
-        <div className="absolute top-16 left-0 bg-white border border-gray-300 shadow-lg rounded-md p-2">
+        <div className="absolute  left-0 bg-white border border-gray-300 shadow-lg rounded-md p-2">
           <EmojiPickerComponent onChange={handleIconChange}>
             <button className="text-sm text-blue-500 hover:underline">Pick an emoji</button>
           </EmojiPickerComponent>

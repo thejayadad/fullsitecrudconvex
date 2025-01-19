@@ -118,3 +118,5 @@ export default ActionItem
 - update the height and width
 
 # EDITOR COMPONENT
+- npm i @blocknote/core @blocknote/react
+- dashboard page - 
