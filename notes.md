@@ -92,4 +92,15 @@ export default ActionItem
 - add header component
 - bring into the doc page
 - add the api
- 
+- add the header
+- add then title form
+- show it along the way
+
+# TOOLBAR
+- style the single document page
+- add toolbar component
+- start off with the styling
+- install npm i emoji-picker-react
+- create icon picker component in component folder
+- style the toolbar
+- 

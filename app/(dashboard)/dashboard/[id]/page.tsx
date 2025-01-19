@@ -6,6 +6,7 @@ import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import React from 'react';
 import { Id } from '@/convex/_generated/dataModel';
+import ToolBar from '@/components/toolbar/toolbar';
 
 const SingleNotePage = () => {
   const params = useParams();
@@ -23,13 +24,20 @@ const SingleNotePage = () => {
     return <div className="text-center text-red-500 mt-10">Note not found</div>;
   }
 
+  if(note === null){
+    return <div>Not Found</div>
+  }
+
   return (
     <div className="w-full">
       <Header 
       />
       <div className="p-6">
-        <h1 className="text-2xl font-bold">{note.title}</h1>
-        <p className="text-lg text-gray-600 mt-4">{note.userId || 'No content available'}</p>
+        <div className='h-[35vh]' />
+        <div className='max-w-screen-xl mx-auto'>
+        {note ? <ToolBar initialData={note} /> : <div>Loading note...</div>}
+
+        </div>
       </div>
     </div>
   );
