@@ -16,13 +16,19 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.14",
+    "@edgestore/react": "^0.2.2",
+    "@edgestore/server": "^0.2.2",
     "convex": "^1.18.2",
     "emoji-picker-react": "^4.12.0",
+    "lucide-react": "^0.473.0",
     "next": "15.1.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.5",
     "react-icons": "^5.4.0",
-    "sonner": "^1.7.2"
+    "sonner": "^1.7.2",
+    "tailwind-merge": "^2.6.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

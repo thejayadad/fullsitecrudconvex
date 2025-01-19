@@ -240,3 +240,28 @@ export const updateIcon = mutation({
     return { success: true, message: 'Icon updated successfully' };
   },
 });
+
+
+//UPDATE COVER IMAGE
+export const updateCoverImage = mutation({
+  args: { id: v.id("documents"), coverImage: v.string() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+
+    const document = await ctx.db.get(args.id);
+    if (!document) {
+      throw new Error("Document not found");
+    }
+
+    if (document.userId !== identity.subject) {
+      throw new Error("Unauthorized access");
+    }
+
+    await ctx.db.patch(args.id, { coverImage: args.coverImage || '' });
+
+    return { success: true, message: "Cover image updated successfully" };
+  },
+});

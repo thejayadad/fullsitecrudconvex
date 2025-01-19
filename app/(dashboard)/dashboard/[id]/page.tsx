@@ -33,7 +33,6 @@ const SingleNotePage = () => {
       <Header 
       />
       <div className="p-6">
-        <div className='h-[35vh]' />
         <div className='max-w-screen-xl mx-auto'>
         {note ? <ToolBar initialData={note} /> : <div>Loading note...</div>}
 

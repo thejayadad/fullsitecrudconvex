@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 import SyncUserConvex from "@/components/sync-user";
 import { Toaster } from "sonner";
+import { EdgeStoreProvider } from "@/components/edgestore/edgestore";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,8 +33,10 @@ export default function RootLayout({
       >
        <ConvexClientProvider>
         <SyncUserConvex />
+        <EdgeStoreProvider>
         <Toaster position="top-center" />
-       {children}
+        {children}
+        </EdgeStoreProvider>
        </ConvexClientProvider>
       </body>
     </html>

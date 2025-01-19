@@ -103,4 +103,16 @@ export default ActionItem
 - install npm i emoji-picker-react
 - create icon picker component in component folder
 - style the toolbar
-- 
+- add the image preview
+
+# ADD COVER BUTTON
+- create hook named use-cover-image.tsx
+- go to edgestore
+- create project
+- add .env data to the file
+- click continue in docs
+- follow the docs in setup
+- then do image component
+- install dependencies
+- add to component folder
+- update the height and width
