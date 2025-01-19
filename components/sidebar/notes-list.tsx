@@ -5,6 +5,7 @@ import { api } from '@/convex/_generated/api';
 import { useParams, useRouter } from 'next/navigation';
 import ActionItem from './action-item';
 import { FiImage } from 'react-icons/fi';
+import NoteItem from './note-item';
 
 interface Props {
   noteId?: Id<"documents">;
@@ -31,12 +32,18 @@ const NoteList = ({ noteId }: Props) => {
 
         return (
           <div key={note._id}>
-            <ActionItem
+            {/* <ActionItem
               id={note._id}
               label={note.title}
               icon={FiImage}
               onClick={() => onRedirect(note._id)}
               active={isActive}
+            /> */}
+            <NoteItem
+              label={note.title}
+              icon={FiImage}
+              id={note._id}
+              userId={note.userId}  // Ensure userId is passed from the document
             />
           </div>
         );
