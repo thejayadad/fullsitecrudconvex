@@ -15,9 +15,6 @@ const NoteList = ({ data }: Props) => {
   const router = useRouter();
   const params = useParams();
 
-  const onRedirect = (noteId: string) => {
-    router.push(`/dashboard/${noteId}`);
-  };
 
   return (
     <div className="mt-4">

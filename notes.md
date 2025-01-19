@@ -79,4 +79,17 @@ export default ActionItem
 - update the api
 - add to the noteItem
 - check db to make sure it toggles
+- once finish test it out
 
+# SEARCH FUNCTIONALITY
+- update the action item
+- update the notelist
+- check the backend function
+- update the actionItem component
+
+
+# NAVBAR
+- add header component
+- bring into the doc page
+- add the api
+ 

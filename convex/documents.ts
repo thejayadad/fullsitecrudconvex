@@ -159,3 +159,58 @@ export const restoreDocument = mutation({
     return "Document restored successfully";
   },
 });
+
+
+//UPDATE DOCUMENT TITLE
+
+// Get document by ID with authorization
+
+export const getDocumentById = query({
+  args: { id: v.optional(v.id("documents")) },
+  handler: async (ctx, args) => {
+    if (!args.id) {
+      throw new Error("Document ID is required");
+    }
+
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+
+    const document = await ctx.db.get(args.id);
+    if (!document) {
+      throw new Error("Document not found");
+    }
+
+    if (document.userId !== identity.subject) {
+      throw new Error("Unauthorized access");
+    }
+
+    return document;
+  },
+});
+
+
+// Update document title with authorization
+export const updateTitle = mutation({
+  args: { id: v.id("documents"), title: v.string() },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+
+    const document = await ctx.db.get(args.id);
+    if (!document) {
+      throw new Error("Document not found");
+    }
+
+    if (document.userId !== identity.subject) {
+      throw new Error("Unauthorized access");
+    }
+
+    await ctx.db.patch(args.id, { title: args.title });
+
+    return { success: true, message: "Title updated successfully" };
+  },
+});
