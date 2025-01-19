@@ -3,7 +3,11 @@
 import { useUser } from '@clerk/nextjs';
 import React, { useState } from 'react';
 import Logo from '../logo';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiPlus, FiPlusCircle, FiSearch } from 'react-icons/fi';
+import ActionItem from './action-item';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { toast } from 'sonner';
 
 const SideBar: React.FC = () => {
     const [isVisible, setIsVisible] = useState(true);
@@ -12,6 +16,16 @@ const SideBar: React.FC = () => {
     const handleToggle = () => {
         setIsVisible(!isVisible);
       };
+
+      const create = useMutation(api.documents.create)
+      const onCreate = () => {
+          const promise = create({title: 'Untitled'})
+          toast.promise(promise, {
+            loading: 'Creating a document...',
+            success: 'New document created!',
+            error: 'Failed to create a document.'
+          })
+        }
     
   return (
     <div className="h-full">
@@ -26,10 +40,19 @@ const SideBar: React.FC = () => {
                         <Logo />
                     </div>
                     <div className='py-8'>
-                        Action Items
+                        <ActionItem
+                        label='New Note'
+                        icon={FiPlusCircle}
+                        onClick={onCreate}
+                        />
+                        <ActionItem
+                        label='Search...'
+                        icon={FiSearch}
+                        isSearch
+                        />
                     </div>
-                    <div>
-                      Document List
+                    <div className=''>
+                      <h2>Note List</h2>
                     </div>
                 </div>
 
