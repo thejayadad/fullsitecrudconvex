@@ -23,24 +23,26 @@ export const create = mutation({
 })
 
 export const get = query({
-    handler: async (ctx) => {
-      const identity = await ctx.auth.getUserIdentity();
-      if (!identity) {
-        throw new Error("Not Authenticated");
-      }
-      const userId = identity.subject; // Get the user's unique ID
-      console.log("Fetching documents for userId:", userId);
-  
-      const documents = await ctx.db
-        .query("documents")
-        .collect(); // Ensure results are collected as an array
-        
-      console.log("Fetched documents:", documents);
-  
-      return documents;
-    },
-  });
-  
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+    const userId = identity.subject; // Get the user's unique ID
+    console.log("Fetching documents for userId:", userId);
+
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("by_user", (q) => q.eq("userId", userId)) // Filter by userId
+      .filter((q) => q.eq(q.field("isArchived"), false)) // Exclude archived documents
+      .collect();
+
+    console.log("Fetched documents:", documents);
+
+    return documents;
+  },
+});
+
 
 //SEARCH FUNCTIONALITY
 
@@ -63,6 +65,7 @@ export const getSearch = query({
   }
   
 })
+
 
 
 
@@ -95,5 +98,64 @@ export const toggleArchive = mutation({
     });
 
     return { success: true, message: "Archive status updated", updatedDocument };
+  },
+});
+
+
+
+
+// GET ARCHIVED DOCUMENTS
+export const getArchive = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+
+    const userId = identity.subject;
+
+    // Fetch archived documents belonging to the authenticated user
+    const documents = await ctx.db
+      .query("documents")
+      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .filter((q) => q.eq(q.field("isArchived"), true))
+      .order("desc")
+      .collect();
+
+    return documents;
+  },
+});
+
+// RESTORE DOCUMENT FROM ARCHIVE
+export const restoreDocument = mutation({
+  args: {
+    id: v.id("documents"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+
+    const userId = identity.subject;
+
+    const document = await ctx.db.get(args.id);
+
+    if (!document) {
+      throw new Error("Document not found");
+    }
+
+    if (document.userId !== userId) {
+      throw new Error("Not Authorized to restore this document");
+    }
+
+    // Restore the document by setting isArchived to false
+    await ctx.db.patch(args.id, {
+      isArchived: false,
+    });
+
+    return "Document restored successfully";
   },
 });

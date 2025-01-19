@@ -9,6 +9,7 @@ import React from 'react';
 import { IconType } from 'react-icons';
 import { FiTrash2 } from 'react-icons/fi';
 import { useUser } from '@clerk/nextjs';
+import { toast } from 'sonner';
 
 interface Props {
   id?: Id<"documents">;
@@ -26,9 +27,9 @@ const NoteItem = ({ id, label, icon: Icon, userId }: Props) => {
     event.stopPropagation(); // Prevent triggering the link
     try {
       await archiveDocument({ id: documentId });
-      console.log("Document archived successfully");
+      toast("Document archived successfully");
     } catch (error) {
-      console.error("Error archiving document:", error);
+      console.log("Error archiving document:" + error);
     }
   };
 

@@ -77,3 +77,6 @@ export default ActionItem
 
 # ARCHIVE 
 - update the api
+- add to the noteItem
+- check db to make sure it toggles
+

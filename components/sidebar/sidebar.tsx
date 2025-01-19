@@ -9,6 +9,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
 import NoteList from './notes-list';
+import NoteArchive from './note-archieve';
 
 const SideBar: React.FC = () => {
     const [isVisible, setIsVisible] = useState(true);
@@ -56,6 +57,10 @@ const SideBar: React.FC = () => {
                     <div className='border-t'>
                       <h2 className='font-medium leading-8'>Note List</h2>
                       <NoteList />
+                    </div>
+                    <div className='border-t'>
+                    <h2 className='font-medium leading-8'>Archived</h2>
+                      <NoteArchive />
                     </div>
                 </div>
 
