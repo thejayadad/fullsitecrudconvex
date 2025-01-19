@@ -4,6 +4,7 @@ import React from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { FiRefreshCw } from 'react-icons/fi';
+import { toast } from 'sonner';
 
 const NoteArchive = () => {
   const archivedNotes = useQuery(api.documents.getArchive);
@@ -12,10 +13,10 @@ const NoteArchive = () => {
   const handleRestore = async (id: string) => {
     try {
       await restoreDocument({ id });
-      alert('Document restored successfully!');
+      toast('Document restored successfully!');
     } catch (error) {
       console.error('Error restoring document:', error);
-      alert('Failed to restore document.');
+      toast('Failed to restore document.');
     }
   };
 

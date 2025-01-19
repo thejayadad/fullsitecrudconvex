@@ -43,7 +43,7 @@ const NoteItem = ({ id, label, icon: Icon, userId }: Props) => {
     <Link href={`/dashboard/${id}`}>
       <div
         className={`flex mb-2 items-center p-2 rounded-md cursor-pointer transition-all duration-200 ${
-          isActive ? 'bg-primary text-white' : 'hover:bg-gray-200 text-gray-800'
+          isActive ? 'bg-secondary/10 text-primary' : 'hover:bg-gray-200 text-gray-800'
         } group`}
       >
         <Icon className="h-5 w-5 text-gray-600" />
