@@ -7,6 +7,7 @@ import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { FiTrash2, FiSmile, FiImage } from 'react-icons/fi';
 import { SingleImageDropzone } from '../edgestore/image-dropzone';
+import { useEdgeStore } from '../edgestore/edgestore';
 
 interface Props {
   initialData: Doc<"documents">;
@@ -19,6 +20,7 @@ const ToolBar = ({ initialData, preview }: Props) => {
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [isUploaderVisible, setIsUploaderVisible] = useState(false);
 
+  const { edgestore } = useEdgeStore();
   const updateIcon = useMutation(api.documents.updateIcon);
   const updateCoverImage = useMutation(api.documents.updateCoverImage);
 
@@ -43,20 +45,24 @@ const ToolBar = ({ initialData, preview }: Props) => {
 
   const handleCoverImageUpload = async (file?: File) => {
     if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const imageUrl = reader.result as string;
-      setCoverImage(imageUrl);
+  
+    try {
+      // Ensure you're using the correct bucket name, e.g., publicFiles
+      const { url } = await edgestore.publicFiles.upload({
+        file,
+        options: { replaceTargetUrl: coverImage || undefined }, // Replace if exists
+      });
+  
+      setCoverImage(url); // Set the uploaded image URL
       setIsUploaderVisible(false);
-      try {
-        await updateCoverImage({ id: initialData._id, coverImage: imageUrl });
-      } catch (error) {
-        console.error('Failed to upload cover image:', error);
-      }
-    };
-    reader.readAsDataURL(file);
+  
+      // Save the URL to the database
+      await updateCoverImage({ id: initialData._id, coverImage: url });
+    } catch (error) {
+      console.error('Failed to upload cover image to EdgeStore:', error);
+    }
   };
+  
 
   const handleRemoveCoverImage = async () => {
     setCoverImage(null);
@@ -81,20 +87,17 @@ const ToolBar = ({ initialData, preview }: Props) => {
           </button>
         </div>
       ) : (
-        // Show Upload Button if no image
         <div className="mt-4">
           {isUploaderVisible ? (
             <SingleImageDropzone onChange={handleCoverImageUpload} value={undefined} />
           ) : (
-            // <button
-            //   onClick={() => setIsUploaderVisible(true)}
-            //   className="p-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 transition flex items-center gap-2"
-            // >
-            //   <FiImage className="h-6 w-6" />
-            //   <span>Add Cover Image</span>
-            // </button>
-            <SingleImageDropzone onChange={handleCoverImageUpload} value={undefined} />
-
+            <button
+              onClick={() => setIsUploaderVisible(true)}
+              className="p-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 transition flex items-center gap-2"
+            >
+              <FiImage className="h-6 w-6" />
+              <span>Add Cover Image</span>
+            </button>
           )}
         </div>
       )}

@@ -116,3 +116,5 @@ export default ActionItem
 - install dependencies
 - add to component folder
 - update the height and width
+
+# EDITOR COMPONENT
