@@ -8,6 +8,7 @@ import ActionItem from './action-item';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { toast } from 'sonner';
+import NoteList from './notes-list';
 
 const SideBar: React.FC = () => {
     const [isVisible, setIsVisible] = useState(true);
@@ -49,10 +50,12 @@ const SideBar: React.FC = () => {
                         label='Search...'
                         icon={FiSearch}
                         isSearch
+                        onClick={() => {}}
                         />
                     </div>
-                    <div className=''>
-                      <h2>Note List</h2>
+                    <div className='border-t'>
+                      <h2 className='font-medium leading-8'>Note List</h2>
+                      <NoteList />
                     </div>
                 </div>
 

@@ -63,3 +63,37 @@ export const getSearch = query({
   }
   
 })
+
+
+
+// Toggle Archive Status
+export const toggleArchive = mutation({
+  args: {
+    id: v.id("documents"), // Document ID
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+
+    const userId = identity.subject;
+    const existingDocument = await ctx.db.get(args.id);
+
+    if (!existingDocument) {
+      throw new Error("Document Not Found");
+    }
+
+    if (existingDocument.userId !== userId) {
+      throw new Error("Not Authorized to modify this document");
+    }
+
+    // Toggle isArchived field
+    const updatedDocument = await ctx.db.patch(args.id, {
+      isArchived: !existingDocument.isArchived, // Toggle archive status
+    });
+
+    return { success: true, message: "Archive status updated", updatedDocument };
+  },
+});

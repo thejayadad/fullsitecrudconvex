@@ -68,3 +68,12 @@ export default ActionItem
 - give some mr as needed
 - now add the search icon
 - add isSearch into props
+
+# NOTE LIST
+- add a component
+- bring into the sidebar
+- style with a title make sure site still works
+- update the list component
+
+# ARCHIVE 
+- update the api
