@@ -265,3 +265,34 @@ export const updateCoverImage = mutation({
     return { success: true, message: "Cover image updated successfully" };
   },
 });
+
+
+//UPDATE CONTENT
+
+
+// Mutation to update document content
+export const updateContent = mutation({
+  args: {
+    id: v.id("documents"),
+    content: v.string()
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not Authenticated");
+    }
+
+    const document = await ctx.db.get(args.id);
+    if (!document) {
+      throw new Error("Document not found");
+    }
+
+    if (document.userId !== identity.subject) {
+      throw new Error("Unauthorized access");
+    }
+
+    await ctx.db.patch(args.id, { content: args.content });
+
+    return { success: true, message: "Content updated successfully" };
+  },
+});

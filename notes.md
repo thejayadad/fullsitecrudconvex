@@ -120,3 +120,5 @@ export default ActionItem
 # EDITOR COMPONENT
 - npm i @blocknote/core @blocknote/react
 - dashboard page - 
+- npm install @tiptap/react @tiptap/starter-kit @tiptap/extension-placeholder @tiptap/extension-heading @tiptap/extension-bold @tiptap/extension-italic @tiptap/extension-underline @tiptap/extension-bullet-list @tiptap/extension-ordered-list @tiptap/extension-list-item
+
